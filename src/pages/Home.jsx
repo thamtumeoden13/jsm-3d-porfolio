@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react"
+import { Suspense, useState, useEffect, useRef } from "react"
 import { Canvas } from "@react-three/fiber"
 
 import Loader from '../components/Loader'
@@ -6,10 +6,19 @@ import Loader from '../components/Loader'
 import { Bird, Island, Sky, Plane } from '../models';
 import HomeInfo from "../components/HomeInfo";
 
+import sakura from '../assets/sakura.mp3'
+import { soundoff, soundon } from "../assets/icons";
+
 const Home = () => {
 
-    const [isRotating, setIsRotating] = useState(false)
-    const [currentStage, setCurrentStage] = useState(0)
+    const audioRef = useRef(new Audio(sakura));
+
+    audioRef.current.volume = 0.4;
+    audioRef.current.loop = true;
+
+    const [isRotating, setIsRotating] = useState(false);
+    const [currentStage, setCurrentStage] = useState(0);
+    const [isPlayingMusic, setIsPlayingMusic] = useState(false);
 
     const adjustIslandForScreenSize = () => {
         let screenScale = null;
@@ -38,9 +47,18 @@ const Home = () => {
         return [screenScale, screenPosition];
     }
 
-
     const [islandScale, islandPosition, islandRotation] = adjustIslandForScreenSize();
     const [planeScale, planePosition] = adjustPlaneForScreenSize();
+
+    useEffect(() => {
+        if (isPlayingMusic) {
+            audioRef.current.play();
+        }
+
+        return () => {
+            audioRef.current.pause();
+        }
+    }, [isPlayingMusic])
 
     return (
         <section className='w-full h-screen relative'>
@@ -72,13 +90,21 @@ const Home = () => {
                     />
                     <Plane
                         isRotating={isRotating}
-                        planeScale={planeScale}
-                        planePosition={planePosition}
+                        scale={planeScale}
+                        position={planePosition}
                         rotation={[0, 20, 0]}
                     />
 
                 </Suspense>
             </Canvas>
+            <div className="absolute bottom-2 left-2">
+                <img
+                    src={!isPlayingMusic ? soundoff : soundon}
+                    alt="sound"
+                    className="w-10 h-10 cursor-pointer object-contain"
+                    onClick={() => setIsPlayingMusic(!isPlayingMusic)}
+                />
+            </div>
         </section>
     )
 }

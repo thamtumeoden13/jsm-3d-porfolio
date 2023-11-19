@@ -17,7 +17,7 @@ const Home = () => {
     audioRef.current.loop = true;
 
     const [isRotating, setIsRotating] = useState(false);
-    const [currentStage, setCurrentStage] = useState(0);
+    const [currentStage, setCurrentStage] = useState(1);
     const [isPlayingMusic, setIsPlayingMusic] = useState(false);
 
     const adjustIslandForScreenSize = () => {

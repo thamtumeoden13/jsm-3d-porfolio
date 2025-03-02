@@ -29,7 +29,9 @@ import {
     python,
     shell,
     firebase,
-    shadcn
+    shadcn,
+    cloudinary,
+    imaginify,
 } from "../assets/icons";
 
 export const skills = [
@@ -303,5 +305,12 @@ export const projects = [
         name: 'Apple Landing Page',
         description: "Developed a web application that is a landing page built with Vite + React, likely replicating Apple's official website design and UI elements. It showcases smooth animations, a clean layout, and an interactive user experience",
         link: 'https://apple-website-ruby-chi.vercel.app/',
+    },
+    {
+        iconUrl: cloudinary,
+        theme: 'btn-back-purple',
+        name: 'AI SaaS Platform',
+        description: "Imaginify is an AI-driven SaaS platform designed for advanced image processing, offering features like image restoration, recoloring, object removal, generative filling, and background removal. It includes secure payment integration, an AI-powered image search, and supports various AI-enhanced functionalities.",
+        link: 'https://imaginify-mrvu.vercel.app/',
     }
 ];

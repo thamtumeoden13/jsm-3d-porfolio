@@ -32,6 +32,8 @@ import python from './python.svg'
 import shell from './shell.svg'
 import firebase from './firebase.svg'
 import shadcn from './shadcn.svg'
+import imaginify from './imaginify.png'
+import cloudinary from './cloudinary.svg'
 
 export {
     css,
@@ -67,5 +69,7 @@ export {
     python,
     shell,
     firebase,
-    shadcn
+    shadcn,
+    imaginify,
+    cloudinary,
 }

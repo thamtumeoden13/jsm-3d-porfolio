@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useState } from 'react'
+import React, { Suspense, useRef, useState, useEffect } from 'react'
 import emailjs from '@emailjs/browser'
 import Loader from '../components/Loader';
 import { Canvas } from '@react-three/fiber';
@@ -8,7 +8,6 @@ import useAlert from '../hooks/useAlert';
 import Alert from '../components/Alert';
 
 const Contact = () => {
-    const formRef = useRef(null)
 
     const [form, setForm] = useState({ name: '', email: '', message: '' });
     const [isLoading, setIsLoading] = useState(false);
@@ -37,18 +36,13 @@ const Contact = () => {
             },
             import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
         ).then(() => {
-            setIsLoading(false);
             showAlert({ show: true, text: 'Message sent successfully!', type: 'success' });
-
-            setTimeout(() => {
-                setCurrentAnimation('idle')
-                setForm({ name: '', email: '', message: '' })
-            }, 3000);
         }).catch((error) => {
-            setIsLoading(false);
-            setCurrentAnimation('idle')
             console.log(error);
             showAlert({ show: true, text: "I didn't receive your message", type: 'danger' });
+        }).finally(() => {
+            setIsLoading(false);
+            setCurrentAnimation('idle');
         })
     };
 
@@ -57,21 +51,32 @@ const Contact = () => {
     const handleBlur = () => setCurrentAnimation('idle');
 
 
+    useEffect(() => {
+        if (!alert.show) return;
+        setForm({ name: '', email: '', message: '' })
+
+        const timeout = setTimeout(() => {
+            hideAlert();
+        }, 3000);
+
+        return () => clearTimeout(timeout);
+    }, [alert]);
+
     return (
         <section className='relative flex lg:flex-row flex-col max-container h-[100vh]'>
             {alert.show && <Alert {...alert} />}
-            
+
             <div className='flex-1 min-w-[50%] flex flex-col'>
                 <h1 className='head-text'>
                     Get in Touch
                 </h1>
 
                 <form
-                    className='w-ful flex flex-col gap-7 mt-14'
+                    className='flex flex-col w-ful gap-7 mt-14'
                     onSubmit={handleSubmit}
                 >
-                    <label className='text-black-500 font-semibold'>
-                        Name
+                    <label className='font-semibold text-black-500'>
+                        <p>Name</p>
                         <input
                             type='text'
                             name='name'
@@ -84,8 +89,8 @@ const Contact = () => {
                             onBlur={handleBlur}
                         />
                     </label>
-                    <label className='text-black-500 font-semibold'>
-                        Email
+                    <label className='font-semibold text-black-500'>
+                        <p>Email</p>
                         <input
                             type='email'
                             name='email'
@@ -98,13 +103,14 @@ const Contact = () => {
                             onBlur={handleBlur}
                         />
                     </label>
-                    <label className='text-black-500 font-semibold'>
-                        Your Message
+                    <label className='font-semibold text-black-500'>
+                        <p>Your Message</p>
                         <textarea
                             name='message'
                             className='textarea'
                             placeholder="let me know how I can help you!"
                             required
+                            rows={5}
                             value={form.message}
                             onChange={handleChange}
                             onFocus={handleFocus}

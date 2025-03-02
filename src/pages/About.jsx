@@ -13,7 +13,8 @@ const About = () => {
 
             <div className="flex-col gap-3 mt-5 flex- text-slate-500">
                 <p> Software Engineer based in VietNam,
-                    specializing in technical education through hands-on learning and building applications. </p>
+                    specializing in technical education through hands-on learning and building applications.
+                </p>
             </div>
 
             <div className="flex flex-col py-10">

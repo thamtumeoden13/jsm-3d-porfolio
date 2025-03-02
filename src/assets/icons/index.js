@@ -26,6 +26,12 @@ import arrow from './arrow.svg'
 import contact from './contact.svg'
 import soundon from './soundon.png'
 import soundoff from './soundoff.png'
+import reactnative from './react-native.svg'
+import flutter from './flutter.svg'
+import python from './python.svg'
+import shell from './shell.svg'
+import firebase from './firebase.svg'
+import shadcn from './shadcn.svg'
 
 export {
     css,
@@ -55,5 +61,11 @@ export {
     arrow,
     contact,
     soundon,
-    soundoff
+    soundoff,
+    reactnative,
+    flutter,
+    python,
+    shell,
+    firebase,
+    shadcn
 }
